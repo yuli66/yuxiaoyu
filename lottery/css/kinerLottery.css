@@ -1,0 +1,292 @@
+@charset "UTF-8";
+
+html {
+    font-size : 20px;
+}
+@media only screen and (min-width: 401px){
+    html {
+        font-size: 25px !important;
+    }
+}
+@media only screen and (min-width: 428px){
+    html {
+        font-size: 26.75px !important;
+    }
+}
+@media only screen and (min-width: 481px){
+    html {
+        font-size: 30px !important;
+    }
+}
+@media only screen and (min-width: 569px){
+    html {
+        font-size: 35px !important;
+    }
+}
+@media only screen and (min-width: 641px){
+    html {
+        font-size: 40px !important;
+    }
+}
+html, body {
+    padding: 0;
+    margin: 0;
+
+    height: 100%;
+
+}
+
+p,li,b,span,div,strong,h1,h2,h3,h4,h5,h6,a,ul{
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    list-style: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.box {
+    width: 100%;
+    height: 100%;
+    background: url("../imgs/lotteryBg2.jpg") no-repeat;
+    background-size: 100% 100%;
+    display: none;
+}
+.box .top{
+    width: 14rem;
+    height: 14rem;
+    margin: 0 auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    -moz-transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+    -o-transform: translate(-50%,-50%);
+}
+.box .shade{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: none;
+}
+.box .shade-bg{
+    width: 100%;
+    height: 100%;
+    background: #000;
+    opacity: 0.5;
+    z-index: 10;
+}
+.box .shade-center{
+    z-index: 100;
+    width: 70%;
+    height: 40%;
+    background: url("../imgs/lotteryCenter.png") no-repeat;
+    background-size: 100% 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    -moz-transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+    -o-transform: translate(-50%,-50%);
+
+}
+.box .shade-center .shade-content{
+    width: 89%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    -moz-transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+    -o-transform: translate(-50%,-50%);
+}
+.box .shade-center .shade-content h3{
+    text-align: center;
+    color: #fff;
+}
+.box .shade-center .shade-content p{
+    color: #fff;
+    text-align: center;
+    margin-top: 5%;
+}
+.box .outer {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+}
+
+.box .outer img{
+    width: 100%;
+}
+
+.box .inner{
+    position: relative;
+    width: 5rem;
+    height: 5rem;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    background-image: url(../imgs/lotteryBtn.png);
+    background-size: auto 5rem;
+    background-repeat: no-repeat;
+}
+.box .inner.start:active{
+
+    -webkit-transform: translate(-50%, -50%) scale(.95);
+    -moz-transform: translate(-50%, -50%) scale(.95);
+    -ms-transform: translate(-50%, -50%) scale(.95);
+    -o-transform: translate(-50%, -50%) scale(.95);
+    transform: translate(-50%, -50%) scale(.95);
+}
+
+.box .inner.start{
+    background-position: 0 0;
+}
+.box .inner.no-start{
+    background-position: -5rem 0;
+}
+.box .inner.completed{
+    background-position: -10rem 0;
+}
+/*手机登陆*/
+.login{
+    width: 100%;
+    height: 100%;
+    background: url("../imgs/lotteryBg2.jpg") no-repeat;
+    background-size: 100% 100%;
+
+}
+.login .shade-login{
+    width: 100%;
+    height: 100%;
+    position: relative;
+
+}
+.login .shade-bg{
+    z-index: 100;
+    width: 80%;
+    height: 45%;
+    background:#000;
+    opacity: 0.5;
+    background-size: 100% 100%;
+    position: absolute;
+    top: 56%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    -moz-transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+    -o-transform: translate(-50%,-50%);
+
+}
+.login .shade-center{
+    z-index: 102;
+    width: 80%;
+    height: 45%;
+    background-size: 100% 100%;
+    position: absolute;
+    top: 56%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    -moz-transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+    -o-transform: translate(-50%,-50%);
+
+}
+.login .shade-center .login-g{
+    width: 80%;
+    margin: 6% auto 0;
+}
+.login .shade-center  .login-center-t input{
+    width: 100%;
+    height: 1.5rem;
+    font-size: 1.2em;
+    background: #fff;
+    border-radius: 5px;
+
+}
+.login .shade-center  .login-center-t input::placeholder{
+    font-size: 0.8rem;
+   text-align: center;
+}
+.login .shade-center input:focus{
+    outline:none;
+}
+.login .shade-center  .login-center-c .login-center-auth{
+    width: 100%;
+    height: 1.5rem;
+    background: #fff;
+    border-radius: 5px;
+    font-size: 0.8rem;
+
+}
+.login .shade-center  .login-center-c .login-center-code{
+    display: inline-block;
+    width: 100%;
+    height: 1.8rem;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 1.8rem;
+    background: #fd7500;
+    color: #fff;
+    border: none;
+    font-size: 0.8rem;
+}
+.login .shade-center  .login-center-b .submit-a{
+    display: block;
+    width: 100%;
+    height: 2rem;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 2rem;
+    border: none;
+    font-size: 0.8rem;
+    color: #fff;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

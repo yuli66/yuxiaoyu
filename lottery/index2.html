@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>能环宝抽奖活动</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="css/kinerLottery.css">
+    <link rel="stylesheet" href="css/jquery.toastmessage.css">
+
+    <style>
+        *{margin:0; padding:0;}
+        li{list-style:none;}
+        img{display:block;}
+        a{text-decoration:none;}
+        input,select,textarea{ outline:none;}
+
+        .fl{float:left;}
+        .fr{float:right;}
+        .clearFix:after{display:block; content:''; clear:both;}
+        .clearFix{zoom:1;}
+	h1{
+		width: 100%;
+		height: 3rem;
+		line-height: 3rem;
+		font-size: 1.8rem;
+		color:#c60;
+		text-align: center;
+		font-weight: bolder;
+	}
+
+    </style>
+</head>
+
+<body>
+
+    <div id="box" class="box">
+        <div class="top">
+            <div class="outer KinerLottery KinerLotteryContent" id="zhuanpan"><img src="./imgs/lotteryContent.png"></div>
+            <!-- 大专盘分为三种状态：活动未开始（no-start）、活动进行中(start)、活动结束(completed),可通过切换class进行切换状态，js会根据这3个class进行匹配状态 -->
+            <div class="inner KinerLotteryBtn start"></div>
+        </div>
+        <div class="shade">
+            <div class="shade-bg"></div>
+            <div class="shade-center">
+                <div class="shade-content">
+                    <h3>恭喜您获得</h3>
+                    <p>
+
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--<div class="login" id="login">
+        <div class="shade-bg"></div>
+        <div class="shade-login">
+            <div class="shade-center">
+                <div class="login-g login-center-t">
+                    <input type="tel" placeholder="请输入手机号" id="telephone">
+                </div>
+                <div class="login-g login-center-c clearFix">
+                    <p class="fl" style="width: 40%;">
+                        <input type="text" class="login-center-auth" id="sendSMSTis">
+                    </p>
+                    <p class="fr get-verify-btn" style="width: 54%;">
+                        <a href="javascript:void(0)"   onclick="sendMobileValidSMSCode()"   class="login-center-code" id="sendSMSTip">获取验证码</a>
+                    </p>
+                </div>
+                <div class="login-g login-center-b">
+                    <input type="submit" id="submit" onclick="submit()" value="提交">
+                </div>
+            </div>
+        </div>
+    </div>-->
+    <script src="js/zepto.min.js"></script>
+    <script src="js/kinerLottery.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.toastmessage.js"></script>
+    <script>
+        var timer = null;
+        var leftsecond = 60; //倒计时
+        var msg = "";
+        var sendSMSTip = $('#sendSMSTip'); //获取按钮id
+        var loactico = $(".get-verify-btn").html(' <a href="javascript:void(0)"  onclick="sendMobileValidSMSCode()"   class="login-center-code" id="sendSMSTip">获取验证码</a>');
+        function sendMobileValidSMSCode(){
+            var user_phone =  $.trim($("#telephone").val());//手机号码
+            var pat = /^1[3|4|5|7|8][0-9]\d{8}$/;//验证手机号码
+            if(user_phone == ''){
+                $().toastmessage('showErrorToast', '请输入手机号码!');
+                return false;
+            }
+            if (!pat.test(user_phone)) {
+                $().toastmessage('showErrorToast', '请输入正确手机号码!');
+                return false;
+            }
+            sendSMSTip.html("短信发送中");
+
+            $.ajax({
+                url: "http://www.nenghb.cn/lucky/index.php?api=getcode",
+                type: "post",
+                dataType: "jsonp",
+                contentType: "application/jsonp; charset=utf-8",
+                jsonp: "jsoncallback",
+                data: {"phone":user_phone},
+                success: function(d) {
+                    leftsecond = 120;
+                    if (d.code == 200) {
+                        clearInterval(timer);
+                        timer = setInterval(setLeftTime, 1000, "1");
+                    }else {
+                        loactico;
+                        msg = "发送失败,请重试";
+                        $().toastmessage('showErrorToast', msg);
+                        return false;
+                    }
+                }
+            });
+        }
+
+        function setLeftTime() {
+            var second = Math.floor(leftsecond);
+            $(".get-verify-btn").html(' <a href="javascript:void(0)" class="login-center-code" id="sendSMSTip">'+msg + second +'秒</a>');
+            leftsecond--;
+            if (leftsecond < 1) {
+                clearInterval(timer);
+                $(".get-verify-btn").html('<a href="javascript:void(0)" onclick="sendMobileValidSMSCode()" class="login-center-code" id="sendSMSTip">重新获取</a>');
+                try {} catch (E) { }
+                return;
+            }
+        }
+        function submit() {
+            var user_yz =  $.trim($("#sendSMSTis").val());//验证码
+            var user_phone =  $.trim($("#telephone").val());//手机号码
+            $.ajax({
+                url: "http://www.nenghb.cn/lucky/index.php?api=valcode",
+                type: "post",
+                dataType: "jsonp",
+                contentType: "application/jsonp; charset=utf-8",
+                jsonp: "jsoncallback",
+                data: {"code":user_yz,'phone':user_phone},
+                success: function(d) {
+                    if (d.code == 200) {
+                        $('#login').hide();
+                        $('#box').show();
+                    }else if( user_phone==''){
+                        $().toastmessage('showErrorToast', '请输入手机号');
+                    }
+                    else if( user_yz==''){
+                        $().toastmessage('showErrorToast', '请输入验证码');
+                    }
+                    else {
+                        $().toastmessage('showErrorToast', d.msg);
+                        return false;
+                    }
+                }
+            });
+        }
+
+    </script>
+    <script>
+    /**
+     * 根据转盘旋转角度判断获得什么奖品
+     * @param deg
+     * @returns {*}
+     */
+
+    var whichAward = function(deg) {
+
+        if ((deg > 0 && deg <= 72)) { //5元话费
+            return "5元话费";
+        } else if ((deg > 72 && deg <= 144)) { //10元话费
+            return "10元话费";
+        } else if (deg > 144 && deg <= 216) { //分享奖励
+            return "分享奖励";
+        } else if (deg > 216 && deg <= 288) { //iphone8 plus
+            return "iphone8 plus";
+        } else if (deg > 288 && deg <= 360) { //2元话费
+            return "2元话费";
+        }
+
+    }
+
+
+    var KinerLottery = new KinerLottery({
+        rotateNum: 4, //转盘转动圈数
+        body: "#box", //大转盘整体的选择符或zepto对象
+        direction: 1, //0为顺时针转动,1为逆时针转动
+
+        disabledHandler: function(key) {
+
+            switch (key) {
+                case "noStart":
+                    alert("活动尚未开始");
+                    break;
+                case "completed":
+                    alert("活动已结束");
+                    break;
+            }
+
+        }, //禁止抽奖时回调
+
+        clickCallback: function() {
+
+            //此处访问接口获取奖品
+           /* function random() {
+                return Math.floor(Math.random() * 360);
+            }
+            console.log(this);
+            this.goKinerLottery(288);*/
+            $.ajax({
+                url: "http://www.nenghb.cn/lucky/index.php?api=lucky",
+                type: "post",
+                dataType: "jsonp",
+                contentType: "application/jsonp; charset=utf-8",
+                jsonp: "jsoncallback",
+                data: {},
+                success: function(d) {
+                    if (d.code == 200) {
+                        KinerLottery.goKinerLottery(d.data.luckynumber);
+                    }else {
+                        $().toastmessage('showErrorToast', d.msg);
+                        return false;
+                    }
+                }
+            });
+
+
+        }, //点击抽奖按钮,再次回调中实现访问后台获取抽奖结果,拿到抽奖结果后显示抽奖画面
+
+        KinerLotteryHandler: function(deg) {
+                /*alert("恭喜您获得:" + whichAward(deg));*/
+                $('.shade').show();
+                $('.shade .shade-content p').html(whichAward(deg));
+            } //抽奖结束回调
+    });
+    </script>
+</body>
+
+</html>
